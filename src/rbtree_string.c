@@ -117,12 +117,15 @@ static void rbts_freestorage_sub(RBTNodeType node, rbtree_datafree_callback* cal
     rbts_freestorage_sub(node->right, callback);
     //free current
     string_list_zhmh* list = (string_list_zhmh*)node->data.first;
+    string_list_zhmh* temp;
     while(list) {
         rbts_freestring(list->skey);
         if(NULL!=callback)  {
             callback(list->data);
         }
+        temp = list;
         list = list->next;
+        free(temp);
     }
     free(node);
 }
